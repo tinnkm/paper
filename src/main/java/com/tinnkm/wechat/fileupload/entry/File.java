@@ -25,4 +25,14 @@ public class File {
     private byte[] content;
     private String path;
     private String businessKey;
+
+    public File(String name,String contentType,Long size,String md5,byte[] content,String businessKey,String path){
+        this.name = name;
+        this.contentType = contentType;
+        this.size = size;
+        this.md5 = md5;
+        this.content = content;
+        this.businessKey = businessKey;
+        this.path = path;
+    }
 }
