@@ -2,6 +2,7 @@ package com.tinnkm.wechat.fileupload.controller;
 
 import com.tinnkm.wechat.fileupload.entry.File;
 import com.tinnkm.wechat.fileupload.service.FileService;
+import com.tinnkm.wechat.fileupload.utils.MD5Util;
 import com.tinnkm.wechat.fileupload.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +32,16 @@ public class FileController {
         return Result.success("获取文件成功！",file);
     }
 
+    @PostMapping("/upload/{businessKey}")
     public Result upload(@RequestParam("file")MultipartFile file,@PathVariable("businessKey") String businessKey) throws IOException {
-//        new File(file.getName(),file.getContentType(),file.getSize(),MD5Util.getMD5(file.getInputStream()),file.getBytes());
+        File saveFile = new File(file.getName(), file.getContentType(), file.getSize(), MD5Util.getMD5((java.io.File) file), file.getBytes(), businessKey);
+        fileService.saveFile(saveFile);
+        return Result.success();
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public Result delete(@PathVariable String id){
+        fileService.removeFile(id);
         return Result.success();
     }
 }

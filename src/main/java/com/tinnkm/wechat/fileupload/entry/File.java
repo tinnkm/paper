@@ -23,16 +23,14 @@ public class File {
     private Date uploadDate;
     private String md5;
     private byte[] content;
-    private String path;
     private String businessKey;
 
-    public File(String name,String contentType,Long size,String md5,byte[] content,String businessKey,String path){
+    public File(String name,String contentType,Long size,String md5,byte[] content,String businessKey){
         this.name = name;
         this.contentType = contentType;
         this.size = size;
         this.md5 = md5;
         this.content = content;
         this.businessKey = businessKey;
-        this.path = path;
     }
 }
