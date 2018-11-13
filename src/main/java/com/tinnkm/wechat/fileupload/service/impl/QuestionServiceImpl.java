@@ -1,6 +1,5 @@
 package com.tinnkm.wechat.fileupload.service.impl;
 
-import com.tinnkm.wechat.fileupload.dao.AbstractBatchDao;
 import com.tinnkm.wechat.fileupload.dao.QuestionDao;
 import com.tinnkm.wechat.fileupload.entry.Question;
 import com.tinnkm.wechat.fileupload.service.QuestionService;
@@ -17,7 +16,7 @@ import java.util.List;
  * @date 2018/11/4 17:57
  **/
 @Service
-public class QuestionServiceImpl extends AbstractBatchDao<Question> implements QuestionService {
+public class QuestionServiceImpl implements QuestionService {
     @Autowired
     private QuestionDao questionDao;
     @Override
@@ -27,7 +26,7 @@ public class QuestionServiceImpl extends AbstractBatchDao<Question> implements Q
 
     @Override
     public void saveBatch(List<Question> questionList) {
-        batchInsert(questionList);
+        questionDao.saveAll(questionList);
     }
 
     @Override

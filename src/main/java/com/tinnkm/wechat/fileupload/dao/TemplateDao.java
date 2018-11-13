@@ -4,11 +4,10 @@ import com.tinnkm.wechat.fileupload.entry.Template;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * @author tinnkm
- * @version 1.0
- * @classname TemplateDao
- * @description 模板dao
- * @date 2018/11/4 17:38
- **/
+ * @Auther: tinnkm
+ * @Date: 2018/11/13 17:21
+ * @Description: 模版dao
+ * @since: 1.0
+ */
 public interface TemplateDao extends JpaRepository<Template,String> {
 }

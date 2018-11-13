@@ -28,6 +28,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String saveUser(User user) {
+        if (userDao.existsByIdCard(user.getIdCard())){
+            return "exist";
+        }
         userDao.save(user);
         // 生成token
         return JwtUtils.createToken(user.getUserName(),user.getUserId(),user.getRole(),audience.getClientId(),audience.getName(),audience.getExpires()*1000,audience.getSecret());

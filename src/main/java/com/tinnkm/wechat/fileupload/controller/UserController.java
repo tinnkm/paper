@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * @author tinnkm
  * @version 1.0
@@ -27,7 +29,10 @@ public class UserController {
 
     @GetMapping("/save")
     public Result<String> save(User user){
-        String token = userService.saveUser(user);
-        return Result.success("token获取成功",token);
+        String flag = userService.saveUser(user);
+        if ("exist".equals(flag)){
+            return Result.error(HttpServletResponse.SC_CREATED,"用户已存在");
+        }
+        return Result.success("token获取成功",flag);
     }
 }

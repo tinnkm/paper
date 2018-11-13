@@ -3,10 +3,9 @@ package com.tinnkm.wechat.fileupload.controller;
 import com.tinnkm.wechat.fileupload.entry.Template;
 import com.tinnkm.wechat.fileupload.service.TemplateService;
 import com.tinnkm.wechat.fileupload.utils.Result;
+import com.tinnkm.wechat.fileupload.vo.Paper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author tinnkm
@@ -29,5 +28,11 @@ public class TemplateController {
     public Result<String> create(Template template){
         String templateId = templateService.save(template);
         return Result.success("模板创建成功",templateId);
+    }
+
+    @GetMapping("/{type}")
+    public Result<Paper> getPaper(@PathVariable String type){
+        Paper paper = templateService.getPaper(type);
+        return Result.success("获取模版成功",paper);
     }
 }

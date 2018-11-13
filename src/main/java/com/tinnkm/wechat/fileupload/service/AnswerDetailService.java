@@ -8,5 +8,5 @@ package com.tinnkm.wechat.fileupload.service;
  * @date 2018/11/4 18:11
  **/
 public interface AnswerDetailService {
-    boolean save();
+    boolean save(String userId,String templateId);
 }

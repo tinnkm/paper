@@ -1,6 +1,7 @@
 package com.tinnkm.wechat.fileupload.service;
 
 import com.tinnkm.wechat.fileupload.entry.Template;
+import com.tinnkm.wechat.fileupload.vo.Paper;
 
 /**
  * @author tinnkm
@@ -11,4 +12,11 @@ import com.tinnkm.wechat.fileupload.entry.Template;
  **/
 public interface TemplateService {
     String save(Template template);
+
+    /**
+     * 根据type获取试卷
+     * @param type 类型
+     * @return 试卷封装类
+     */
+    Paper getPaper(String type);
 }

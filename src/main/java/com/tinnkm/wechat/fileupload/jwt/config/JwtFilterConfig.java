@@ -19,6 +19,7 @@ public class JwtFilterConfig {
         FilterRegistrationBean<JwtFilter> jwtFilterFilterRegistrationBean = new FilterRegistrationBean<>();
         jwtFilterFilterRegistrationBean.setFilter(jwtFilter);
         jwtFilterFilterRegistrationBean.addUrlPatterns("/api/*");
+        jwtFilterFilterRegistrationBean.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/api/user/save");
         return jwtFilterFilterRegistrationBean;
     }
 }
