@@ -8,6 +8,9 @@ import com.tinnkm.wechat.fileupload.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author tinnkm
  * @version 1.0
@@ -27,12 +30,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String saveUser(User user) {
+    public Map<String,String> saveUser(User user) {
         if (userDao.existsByIdCard(user.getIdCard())){
-            return "exist";
+            return null;
         }
         userDao.save(user);
+        Map<String, String> map = new HashMap<>();
+        map.put("userId",user.getUserId());
+        map.put("token",JwtUtils.createToken(user.getUserName(),user.getUserId(),user.getRole(),audience.getClientId(),audience.getName(),audience.getExpires()*1000,audience.getSecret()));
         // 生成token
-        return JwtUtils.createToken(user.getUserName(),user.getUserId(),user.getRole(),audience.getClientId(),audience.getName(),audience.getExpires()*1000,audience.getSecret());
+        return map;
     }
 }

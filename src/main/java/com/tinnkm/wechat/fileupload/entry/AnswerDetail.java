@@ -33,7 +33,7 @@ public class AnswerDetail {
      * 外键
      */
     @Column
-    private UUID questionId;
+    private String questionId;
     /**
      * 外键
      */
@@ -49,6 +49,11 @@ public class AnswerDetail {
      */
     @Column
     private String attachmentPath;
+    /**
+     * 是否回答
+     */
+    @Column
+    private boolean answered;
     /**
      * 答案
      */

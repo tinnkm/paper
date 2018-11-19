@@ -38,6 +38,10 @@ public class JwtFilter extends GenericFilterBean {
         final HttpServletResponse response = (HttpServletResponse) servletResponse;
         final String auth = request.getHeader("authorization");
 
+        if (request.getRequestURI().equals("/api/user/save")){
+            filterChain.doFilter(request,response);
+            return;
+        }
         if ("OPTIONS".equals(request.getMethod())){
             response.setStatus(HttpServletResponse.SC_OK);
             filterChain.doFilter(request,response);
