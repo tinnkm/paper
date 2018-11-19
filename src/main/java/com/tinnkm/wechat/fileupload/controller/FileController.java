@@ -33,8 +33,8 @@ public class FileController {
     }
 
     @PostMapping("/upload/{businessKey}")
-    public Result upload(@RequestParam("file")MultipartFile file,@PathVariable("businessKey") String businessKey) throws IOException {
-        File saveFile = new File(file.getName(), file.getContentType(), file.getSize(), MD5Util.getMD5((java.io.File) file), file.getBytes(), businessKey);
+    public Result upload(@RequestParam("file")MultipartFile file,@PathVariable("businessKey") String businessKey,String path) throws IOException {
+        File saveFile = new File(file.getName(), file.getContentType(), file.getSize(), MD5Util.getMD5( file.getBytes()), file.getBytes(), businessKey,path);
         fileService.saveFile(saveFile);
         return Result.success();
     }

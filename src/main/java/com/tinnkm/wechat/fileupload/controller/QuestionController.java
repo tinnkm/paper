@@ -4,10 +4,7 @@ import com.tinnkm.wechat.fileupload.entry.Question;
 import com.tinnkm.wechat.fileupload.service.QuestionService;
 import com.tinnkm.wechat.fileupload.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -40,8 +37,8 @@ public class QuestionController {
         return Result.success();
     }
 
-    @GetMapping("/list")
-    public Result<List<Question>> getQuestionList(String templateId){
+    @GetMapping("/list/{templateId}")
+    public Result<List<Question>> getQuestionList(@PathVariable String templateId){
         List<Question> list = questionService.getList(templateId);
         return Result.success("查询成功",list);
     }

@@ -44,6 +44,30 @@ public class MD5Util {
         }
     }
 
+    /**
+     * 获取一个文件的md5值(可处理大文件)
+     * @return md5 value
+     */
+    public static String getMD5(byte[] buffer) {
+        FileInputStream fileInputStream = null;
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(buffer);
+            return new BigInteger(1, md.digest()).toString(16);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            try {
+                if (fileInputStream != null){
+                    fileInputStream.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     /**
      * 对字符串md5加密(小写+字母)
