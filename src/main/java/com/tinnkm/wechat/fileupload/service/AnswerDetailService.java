@@ -9,4 +9,5 @@ package com.tinnkm.wechat.fileupload.service;
  **/
 public interface AnswerDetailService {
     boolean save(String userId,String templateId);
+    boolean exist(String userId,String templateId);
 }

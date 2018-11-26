@@ -3,10 +3,15 @@ package com.tinnkm.wechat.fileupload.service.impl;
 import com.tinnkm.wechat.fileupload.dao.FileDao;
 import com.tinnkm.wechat.fileupload.entry.File;
 import com.tinnkm.wechat.fileupload.service.FileService;
+import com.tinnkm.wechat.fileupload.utils.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @Auther: tinnkm
@@ -36,7 +41,23 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public File getBusinessKey(String businessKey) {
+    public List<File> getBusinessKey(String businessKey) {
         return fileDao.findByBusinessKey(businessKey);
+    }
+
+    @Override
+    public File getOneByBusinessKey(String businessKey) {
+        return fileDao.findOneByBusinessKey(businessKey);
+    }
+
+    @Override
+    public Map<String, List<String>> getAnswered(String userId, List<String> questionIds) {
+        List<String> businessKeys = questionIds.stream().map(questionId -> MD5Util.getMD5(userId + "_" + questionId)).collect(Collectors.toList());
+        List<File> fileList = fileDao.findAllByBusinessKeyIn(businessKeys);
+        Map<String, List<String>> map = new HashMap<>();
+        questionIds.forEach(questionId -> {
+            map.put(questionId,fileList.stream().filter(file -> file.getBusinessKey().equals(MD5Util.getMD5(userId + "_" + questionId))).map(File::getUploadPath).collect(Collectors.toList()));
+        });
+        return map;
     }
 }

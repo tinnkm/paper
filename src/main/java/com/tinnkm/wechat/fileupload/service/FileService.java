@@ -2,6 +2,9 @@ package com.tinnkm.wechat.fileupload.service;
 
 import com.tinnkm.wechat.fileupload.entry.File;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @Auther: tinnkm
  * @Date: 2018/11/5 17:44
@@ -34,5 +37,20 @@ public interface FileService {
      * @param businessKey 业务主键
      * @return 文件
      */
-    File getBusinessKey(String businessKey);
+    List<File> getBusinessKey(String businessKey);
+
+    /**
+     * 根据业务主键获取文件
+     * @param businessKey 业务主键
+     * @return 文件
+     */
+    File getOneByBusinessKey(String businessKey);
+
+    /**
+     * 获取用户存入的数据
+     * @param userId 用户id
+     * @param questionIds 问题id集合
+     * @return 返回路径
+     */
+    Map<String, List<String>> getAnswered(String userId, List<String> questionIds);
 }

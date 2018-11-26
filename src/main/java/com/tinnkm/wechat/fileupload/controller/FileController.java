@@ -10,6 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.util.*;
 
 /**
  * @Auther: tinnkm
@@ -43,5 +45,31 @@ public class FileController {
     public Result delete(@PathVariable String id){
         fileService.removeFile(id);
         return Result.success();
+    }
+
+    @PostMapping("/answered")
+    public Result<Map<String,List<String>>> getByBusinessKey(String userId,String questionIds){
+        List<String> list = new ArrayList<>();
+        if (questionIds.contains(",")){
+            String[] split = questionIds.split(",");
+            list.addAll(Arrays.asList(split));
+        }else {
+            list.add(questionIds);
+        }
+
+        Map<String,List<String>> map = fileService.getAnswered(userId,list);
+        return Result.success("获取成功",map);
+    }
+
+    @GetMapping("/image/{questionId}")
+    public void getQuestionImage(@PathVariable String questionId,HttpServletResponse response) {
+        File file = fileService.getOneByBusinessKey(questionId);
+        if (null != file){
+            try(OutputStream stream = response.getOutputStream()) {
+                stream.write(file.getContent());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

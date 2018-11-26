@@ -31,27 +31,37 @@ public class AnswerDetailServiceImpl implements AnswerDetailService {
     private AnswerDetailDao answerDetailDao;
 
     @Override
+    public boolean exist(String userId, String templateId) {
+        return false;
+    }
+
+    @Override
     public boolean save(String userId, String templateId) {
         List<Question> questions = questionDao.findAllByTemplateId(templateId);
         questions.forEach(question -> {
-            AnswerDetail answerDetail = new AnswerDetail();
-            answerDetail.setTemplateId(templateId);
-            answerDetail.setQuestionId(question.getQuestionId());
-            answerDetail.setUserId(userId);
             // 查询mongodb
-            File file = fileService.getBusinessKey(MD5Util.getMD5(userId + "_" + question.getQuestionId()));
-            if (null == file) {
-                answerDetail.setAnswered(false);
-            } else {
-                if (null == file.getContent()) {
-                    answerDetail.setHasAttachment(false);
-                } else {
-                    answerDetail.setHasAttachment(true);
-                    answerDetail.setAttachmentPath("/api/file/" + file.getId());
+            List<File> files = fileService.getBusinessKey(MD5Util.getMD5(userId + "_" + question.getQuestionId()));
+            files.forEach(file -> {
+                AnswerDetail answerDetail = new AnswerDetail();
+                answerDetail.setTemplateId(templateId);
+                answerDetail.setQuestionId(question.getQuestionId());
+                answerDetail.setUserId(userId);
+                if (question.isRequired() && null == file){
+                    throw new IllegalStateException("有必答题未答");
                 }
-                answerDetail.setAnswered(true);
-            }
-            answerDetailDao.save(answerDetail);
+                if (null == file) {
+                    answerDetail.setAnswered(false);
+                } else {
+                    if (null == file.getContent()) {
+                        answerDetail.setHasAttachment(false);
+                    } else {
+                        answerDetail.setHasAttachment(true);
+                        answerDetail.setAttachmentPath("/api/file/" + file.getId());
+                    }
+                    answerDetail.setAnswered(true);
+                }
+                answerDetailDao.save(answerDetail);
+            });
         });
         return true;
     }

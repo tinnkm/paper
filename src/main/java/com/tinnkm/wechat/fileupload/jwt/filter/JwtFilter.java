@@ -38,7 +38,7 @@ public class JwtFilter extends GenericFilterBean {
         final HttpServletResponse response = (HttpServletResponse) servletResponse;
         final String auth = request.getHeader("authorization");
 
-        if (request.getRequestURI().equals("/api/user/save")){
+        if (request.getRequestURI().equals("/api/user/save") || request.getRequestURI().contains("/api/file/image")){
             filterChain.doFilter(request,response);
             return;
         }

@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * @author tinnkm
  * @version 1.0
@@ -21,7 +23,14 @@ public class AnswerDetailController {
     private AnswerDetailService answerDetailService;
     @PostMapping("/submit")
     public Result<Boolean> submit(String userId,String templateId){
-        answerDetailService.save(userId, templateId);
+        try {
+            if (answerDetailService.exist(userId, templateId)) {
+                Result.error(HttpServletResponse.SC_EXPECTATION_FAILED,"重复提交");
+            }
+            answerDetailService.save(userId, templateId);
+        } catch (Exception e) {
+            return Result.error(HttpServletResponse.SC_EXPECTATION_FAILED,e.getMessage());
+        }
         return Result.success("提交成功");
     }
 }

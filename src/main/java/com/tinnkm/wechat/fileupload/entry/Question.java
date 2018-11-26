@@ -34,6 +34,11 @@ public class Question {
     @Column
     private String questionTitle;
     /**
+     * 示例图片个数
+     */
+    @Column
+    private Integer questionTemplateCount;
+    /**
      * 示例类型（图片、文字）
      */
     private String questionTemplateType;

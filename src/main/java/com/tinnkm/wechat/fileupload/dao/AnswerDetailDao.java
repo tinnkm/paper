@@ -11,4 +11,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @date 2018/11/4 18:10
  **/
 public interface AnswerDetailDao extends JpaRepository<AnswerDetail,String> {
+    boolean existsByUserIdAndTemplateId(String userId,String templateId);
 }
